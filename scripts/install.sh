@@ -78,10 +78,19 @@ echo "  Source: $SOURCE"
 echo "  Tools:  $TOOLS"
 echo
 
+IFS=',' read -ra TOOL_ARR <<< "$TOOLS"
+AGENT_FLAGS=""
+for t in "${TOOL_ARR[@]}"; do
+  t="${t#"${t%%[![:space:]]*}"}"
+  t="${t%"${t##*[![:space:]]}"}"
+  [[ -z "$t" ]] && continue
+  AGENT_FLAGS+=" --agent '$t'"
+done
+
 if [[ "$ACTION" == "install" ]]; then
-  run "npx --yes skills add '$SOURCE' --global --agent '$TOOLS' --skill '*' --yes"
+  run "npx --yes skills add '$SOURCE' --global$AGENT_FLAGS --skill '*' --yes"
   green "Done. Restart your AI tool to load the new skills."
 else
-  run "npx --yes skills remove --global --agent '$TOOLS' --skill '*' --yes"
+  run "npx --yes skills remove --global$AGENT_FLAGS --skill '*' --yes"
   green "Removed AFV skills from: $TOOLS"
 fi
