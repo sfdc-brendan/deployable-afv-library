@@ -23,10 +23,45 @@ afv-library/
 
 ## 🚀 Usage
 
+### Quick install (Claude Code, Codex, and Cursor)
+
+One command installs every skill in this library into all three tools at the user-global scope:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sfdc-brendan/deployable-afv-library/main/scripts/install.sh | bash
+```
+
+Restart your AI tool afterwards so it picks up the new skills.
+
+**Pick specific tools** with the `TOOLS` env var (comma-separated):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sfdc-brendan/deployable-afv-library/main/scripts/install.sh \
+  | TOOLS="claude-code,cursor" bash
+```
+
+**Preview without installing** — download the script and run with `--dry-run`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sfdc-brendan/deployable-afv-library/main/scripts/install.sh -o install.sh
+bash install.sh --dry-run
+```
+
+**Uninstall**:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sfdc-brendan/deployable-afv-library/main/scripts/install.sh | bash -s -- --uninstall
+```
+
+The installer is a thin wrapper around the [`skills` CLI](https://agentskills.io/), which handles the actual install into each tool's expected directory (`~/.claude/skills`, `~/.codex/skills`, `~/.cursor/rules`). Requires Node.js 18+.
+
+### All install paths
+
 | **Tool** | **Usage** |
 |----------|-------------|
 | **Agentforce Vibes** | Skills are auto-installed and auto-updated |
-| **OpenCode, Claude Code, Codex, Cursor, [more](https://agentskills.io/)** | `npx skills add forcedotcom/afv-library` |
+| **Claude Code + Codex + Cursor (one-shot)** | `curl -fsSL https://raw.githubusercontent.com/sfdc-brendan/deployable-afv-library/main/scripts/install.sh \| bash` |
+| **OpenCode, Claude Code, Codex, Cursor, [more](https://agentskills.io/) (manual)** | `npx skills add sfdc-brendan/deployable-afv-library` |
 
 ## 📦 Samples
 
